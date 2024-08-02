@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法硕主观题抽背器（法制史）</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+            text-align: left;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #bdc3c7;
+            font-size: 14px;
+            color: #2c3e50;
+            background-color: #ecf0f1;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #question-container {
+            margin-top: 20px;
+        }
+        .question {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .question strong {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>法硕主观题抽背器（法制史）</h1>
+
+        <label for="real-question">是否为真题:</label>
+        <select id="real-question">
+            <option value="仅真题">仅真题</option>
+            <option value="仅模拟题">仅模拟题</option>
+            <option value="都可以">都可以</option>
+        </select>
+
+        <label for="question-count">题目数量:</label>
+        <select id="question-count">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <button onclick="drawQuestions()">开始抽背</button>
+
+        <div id="question-container"></div>
+    </div>
+
+    <script>
+        const questionBank = [
+        
+{
+    real: false,
+    question: '简述中国法制史的概念',
+},
+{
+    real: false,
+    question: '简述中国传统法制的主要特征',
+},
+{
+    real: true,
+    question: '【2010】简述中国法制历史中的优秀传统',
+},
+{
+    real: true,
+    question: '【2023】简述中华法文化的创造性转化（如何复兴或重塑中华法系）',
+},
+{
+    real: false,
+    question: '简述夏商西周的立法指导思想',
+},
+{
+    real: false,
+    question: '简述战国和秦朝的立法指导思想（法家）',
+},
+{
+    real: false,
+    question: '简述汉朝和三国两晋南北朝的立法指导思想（法律儒家化）',
+},
+{
+    real: true,
+    question: '【2022】简述唐朝的立法指导思想',
+},
+{
+    real: false,
+    question: '简述元的立法指导思想',
+},
+{
+    real: false,
+    question: '简述明清的立法指导思想',
+},
+{
+    real: false,
+    question: '简述夏商西周春秋战国的法律形式',
+},
+{
+    real: true,
+    question: '【2012】简述秦汉三国两晋南北朝的法律形式',
+},
+{
+    real: true,
+    question: '【2018】简述唐宋的法律形式',
+},
+{
+    real: false,
+    question: '简述元明清的法律形式',
+},
+{
+    real: false,
+    question: '简述夏商西周春秋战国的主要立法',
+},
+{
+    real: true,
+    question: '【2007】简述秦汉三国两晋南北朝的主要立法',
+},
+{
+    real: true,
+    question: '【2011】简述隋唐宋的主要立法',
+},
+{
+    real: false,
+    question: '简述元的主要立法',
+},
+{
+    real: true,
+    question: '【2015】简述明清的主要立法',
+},
+{
+    real: false,
+    question: '简述先秦时期的罪名',
+},
+{
+    real: false,
+    question: '简述秦汉的罪名',
+},
+{
+    real: false,
+    question: '简述从《北齐律》“重罪十条”到隋《开皇律》“十恶”',
+},
+{
+    real: true,
+    question: '【2023】简述唐朝的罪名',
+},
+{
+    real: false,
+    question: '简述元明清的罪名',
+},
+{
+    real: false,
+    question: '简述先秦时期的刑种：奴隶制旧五刑',
+},
+{
+    real: false,
+    question: '简述秦汉三国两晋南北朝的刑种：奴隶制旧五刑向封建制新五刑的过渡',
+},
+{
+    real: false,
+    question: '简述隋唐宋的刑种',
+},
+{
+    real: false,
+    question: '简述元明清的刑种',
+},
+{
+    real: true,
+    question: '【2010】简述有限罪刑法定与刑罚类推适用（西周、晋、唐、明）',
+},
+{
+    real: true,
+    question: '【2022】简述宗法伦理性原则（魏晋南北唐）',
+},
+{
+    real: true,
+    question: '【2012】简述刑事政策原则（西周、宋、元明）',
+},
+{
+    real: false,
+    question: '简述化外人有犯（明）',
+},
+{
+    real: false,
+    question: '故意和过失（西周秦）',
+},
+{
+    real: true,
+    question: '【2015】简述刑事责任能力（西周 唐）',
+},
+{
+    real: false,
+    question: '简述共同犯罪（唐）',
+},
+{
+    real: false,
+    question: '简述连坐（秦：延续商鞅时期的连坐制度）',
+},
+{
+    real: false,
+    question: '简述疑罪（西周 唐）',
+},
+{
+    real: false,
+    question: '简述累犯（唐）',
+},
+{
+    real: false,
+    question: '简述自首（唐）',
+},
+{
+    real: false,
+    question: '简述数罪并罚（唐：合并论罪从重）',
+},
+{
+    real: false,
+    question: '简述秦汉的中央官制',
+},
+{
+    real: false,
+    question: '简述隋唐的中央官制',
+},
+{
+    real: false,
+    question: '简述宋的中央官制',
+},
+{
+    real: false,
+    question: '简述元的中央官制',
+},
+{
+    real: false,
+    question: '简述明的中央官制',
+},
+{
+    real: false,
+    question: '简述清的中央官制',
+},
+{
+    real: false,
+    question: '简述不同朝代官吏选拔制度',
+},
+{
+    real: false,
+    question: '简述不同朝代官吏任用制度',
+},
+{
+    real: false,
+    question: '简述不同朝代官吏考课制度',
+},
+{
+    real: true,
+    question: '【2022】简述不同朝代官吏监察制度',
+},
+{
+    real: false,
+    question: '简述不同朝代官吏退休年龄',
+},
+{
+    real: false,
+    question: '简述西周司法官职',
+},
+{
+    real: false,
+    question: '简述秦汉三国两晋南北朝司法官职',
+},
+{
+    real: false,
+    question: '简述唐宋三法司',
+},
+{
+    real: false,
+    question: '简述元司法官职',
+},
+{
+    real: false,
+    question: '简述明清中央司法部门',
+},
+{
+    real: false,
+    question: '简述清末修律概况',
+},
+{
+    real: false,
+    question: '简述清末修律的主要特点',
+},
+{
+    real: true,
+    question: '【2014】简述清末修律的历史意义',
+},
+{
+    real: false,
+    question: '简述南京临时政府立法指导思想',
+},
+{
+    real: true,
+    question: '【2016】简述南京临时政府立法活动的特点',
+},
+{
+    real: false,
+    question: '简述北洋政府立法指导思想',
+},
+{
+    real: false,
+    question: '简述北洋政府立法活动的特点',
+},
+{
+    real: false,
+    question: '简述南京国民政府立法指导思想',
+},
+{
+    real: true,
+    question: '【2011】简述南京国民政府法律制度的主要特点',
+},
+{
+    real: false,
+    question: '简述南京国民政府立法阶段',
+},
+{
+    real: true,
+    question: '【2009】简述南京国民政府律体系与《六法全书》',
+},
+{
+    real: false,
+    question: '简述清末预备立宪时间线',
+},
+{
+    real: false,
+    question: '简述清末《钦定宪法大纲》与《十九信条》',
+},
+{
+    real: false,
+    question: '简述清末资政院与咨议局',
+},
+{
+    real: false,
+    question: '简述南京临时政府《临时政府组织大纲》与《中华民国临时约法》',
+},
+{
+    real: true,
+    question: '【2013】简述南京临时政府《中华民国临时约法》的内容',
+},
+{
+    real: false,
+    question: '简述南京临时政府《中华民国临时约法》的特点',
+},
+{
+    real: false,
+    question: '【2013】简述南京临时政府《中华民国临时约法》的意义',
+},
+{
+    real: false,
+    question: '简述北洋政府1913年《中华民国宪法草案》（“天坛宪草”）',
+},
+{
+    real: false,
+    question: '简述北洋政府1914年《中华民国约法》（“袁记约法”）',
+},
+{
+    real: true,
+    question: '【2021】简述北洋政府1923年《中华民国宪法》（“贿选宪法”）',
+},
+{
+    real: false,
+    question: '简述南京国民政府1928年国民党中央常务会议《中国国民党训政纲领》',
+},
+{
+    real: true,
+    question: '【2014】简述南京国民政府1931年“国民会议”《中华民国训政时期约法》',
+},
+{
+    real: false,
+    question: '简述南京国民政府1936年《中华民国宪法草案》（“五五宪草”）',
+},
+{
+    real: false,
+    question: '简述南京国民政府1947年《中华民国宪法》',
+},
+{
+    real: false,
+    question: '简述《中华苏维埃共和国宪法大纲》',
+},
+{
+    real: false,
+    question: '简述《陕甘宁边区施政纲领》',
+},
+{
+    real: false,
+    question: '简述《陕甘宁边区宪法原则》',
+},
+{
+    real: true,
+    question: '【2020】简述《大清现行刑律》在《大清律例》基础上的“变”与“不变”（1910年5月颁行）',
+},
+{
+    real: false,
+    question: '【2006】简述《大清新刑律》：中国历史上第一部近代意义上的专门刑法典，是清末修律的代表作（1911年1月公布，未正式施行）',
+},
+{
+    real: false,
+    question: '简述清末礼法之争内容',
+},
+{
+    real: false,
+    question: '简述北洋政府法律内容',
+},
+{
+    real: true,
+    question: '【2008】简述南京国民政府1935年《中华民国刑法》（“新刑法”）特征',
+},
+{
+    real: false,
+    question: '简述革命根据地时期罪名',
+},
+{
+    real: false,
+    question: '简述革命根据地时期刑种',
+},
+{
+    real: false,
+    question: '简述革命根据地定罪量刑原则',
+},
+{
+    real: false,
+    question: '简述《大清民律草案》（1911年10月完成，未及正式颁布）',
+},
+{
+    real: false,
+    question: '简述清末商事立法',
+},
+{
+    real: false,
+    question: '简述北洋政府民事法律渊源',
+},
+{
+    real: true,
+    question: '【2005 2010 2012】简述1930年《中华民国民法》',
+},
+{
+    real: false,
+    question: '简述单行商事立法',
+},
+{
+    real: false,
+    question: '简述革命根据地土地立法',
+},
+{
+    real: false,
+    question: '简述革命根据地劳动立法',
+},
+{
+    real: false,
+    question: '简述革命根据地婚姻立法',
+},
+{
+    real: true,
+    question: '【2010 2011】简述清末司法机构',
+},
+{
+    real: false,
+    question: '简述南京临时政府司法机构',
+},
+{
+    real: false,
+    question: '简述北洋政府司法机构',
+},
+{
+    real: false,
+    question: '简述南京国民政府司法机构',
+},
+{
+    real: false,
+    question: '简述革命根据地司法机构',
+},
+{
+    real: true,
+    question: '【2016】简述清末诉讼审判制度',
+},
+{
+    real: true,
+    question: '【2007】简述南京临时政府司法改革的主要措施',
+},
+{
+    real: false,
+    question: '简述北洋政府诉讼审判制度的主要特点',
+},
+{
+    real: false,
+    question: '简述南京国民政府诉讼审判制度',
+},
+{
+    real: false,
+    question: '简述革命根据地诉讼审判制度',
+}
+
+        ];
+
+        function drawQuestions() {
+            const realQuestion = document.getElementById('real-question').value;
+            const questionCount = parseInt(document.getElementById('question-count').value);
+
+            let filteredQuestions = questionBank.filter(q => 
+                (realQuestion === '都可以' || (realQuestion === '仅真题' && q.real) || (realQuestion === '仅模拟题' && !q.real))
+            );
+
+            filteredQuestions = filteredQuestions.sort(() => 0.5 - Math.random()).slice(0, questionCount);
+
+            const questionContainer = document.getElementById('question-container');
+            questionContainer.innerHTML = '';
+
+            filteredQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `<strong>题目 ${index + 1}:</strong> ${q.question}`;
+                questionContainer.appendChild(questionDiv);
+            });
+        }
+    </script>
+</body>
+</html>
